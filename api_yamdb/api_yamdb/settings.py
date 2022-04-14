@@ -24,6 +24,9 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    # Own
+    'users.apps.UsersConfig'
+    # Django
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -31,6 +34,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # 3rd
 ]
 
 ROOT_URLCONF = 'api_yamdb.urls'
