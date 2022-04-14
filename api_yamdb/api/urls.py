@@ -1,6 +1,6 @@
 from django.urls import path, include
 
-urlpatterns = [
-    path(..., include(...)),  # добалять путь до urls своего приложения
-                              # например, ('v1/auth/', include('users.urls'))
+urlpatterns = [  # добалять путь до urls своего приложения
+                 # например, ('v1/auth/', include('users.urls'))
+    path('v1/auth/', include('users.urls'))
 ]
