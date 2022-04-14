@@ -15,18 +15,22 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    # Own
+    'api.apps.ApiConfig',
+    'reviews.apps.ReviewsConfig',
+    'titles.apps.TitlesConfig',
+    'users.apps.UsersConfig',
+    # Django
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # 3rd
 ]
 
 MIDDLEWARE = [
-    # Own
-    'users.apps.UsersConfig'
-    # Django
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -34,7 +38,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    # 3rd
 ]
 
 ROOT_URLCONF = 'api_yamdb.urls'
