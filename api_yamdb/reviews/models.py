@@ -4,7 +4,7 @@ from django.db import models
 
 from titles.models import Title
 
-User = get_user_model() #возможно необходимо импортировать именно users.models user?
+User = get_user_model()
 
 
 class Review(models.Model):
