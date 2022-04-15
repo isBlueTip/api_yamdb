@@ -16,11 +16,6 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
-    # Own
-    'api.apps.ApiConfig',
-    'reviews.apps.ReviewsConfig',
-    'titles.apps.TitlesConfig',
-    'users.apps.UsersConfig',
     # Django
     'django.contrib.admin',
     'django.contrib.auth',
@@ -28,8 +23,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
     # 3rd
     'rest_framework_simplejwt',
+    # Own
+    'api.apps.ApiConfig',
+    'reviews.apps.ReviewsConfig',
+    'titles.apps.TitlesConfig',
+    'users.apps.UsersConfig',
 ]
 
 MIDDLEWARE = [
