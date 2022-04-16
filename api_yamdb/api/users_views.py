@@ -1,4 +1,4 @@
-# import logging
+import logging
 from random import randint
 
 from django.core.mail import send_mail
@@ -13,14 +13,13 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from users.models import User
 from .users_serializers import SignupSerializer, TokenSerializer
 
-# from loggers import logger, formatter
-# from .permissions import IsAuthorOrReadOnly, ReadOnly
+from loggers import logger, formatter
 
-# LOG_NAME = 'views.log'
-#
-# file_handler = logging.FileHandler(LOG_NAME)
-# file_handler.setFormatter(formatter)
-# logger.addHandler(file_handler)
+LOG_NAME = 'users_views.log'
+
+file_handler = logging.FileHandler(LOG_NAME)
+file_handler.setFormatter(formatter)
+logger.addHandler(file_handler)  # logger.debug(<отслеживаемый объект>)
 
 
 def send_otp(email):
@@ -45,7 +44,7 @@ def get_tokens_for_user(user):
     }
 
 
-class SignupView(APIView):  # Send OTP
+class SignupView(APIView):
     """View to register a new user and verify email."""
 
     def post(self, request):
@@ -58,7 +57,7 @@ class SignupView(APIView):  # Send OTP
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class TokenView(APIView):  # Validate OTP
+class TokenView(APIView):
     """View to request a new user's JWT token."""
 
     def post(self, request):
