@@ -1,7 +1,7 @@
-from django.urls import path, include
-
-from rest_framework_simplejwt.views import TokenObtainPairView
+from django.urls import path
+from api.users_views import SignupView, TokenView
 
 urlpatterns = [
-    path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair')
+    path('signup/', SignupView.as_view(), name='request_confirmation'),
+    path('token/', TokenView.as_view(), name='obtain_token'),
 ]
