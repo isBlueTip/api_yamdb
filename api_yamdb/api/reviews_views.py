@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404
 from rest_framework import viewsets
 
-from reviews.serializers import CommentSerializer, ReviewSerializer
+from api.reviews_serializers import CommentSerializer, ReviewSerializer
 from titles.models import Title
 
 
