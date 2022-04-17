@@ -14,7 +14,7 @@ from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from users.models import User
-from .permissions import IsAdmin, IsModer, IsUser
+from .permissions import IsAdmin, IsModer
 from .users_serializers import (SignupSerializer,
                                 TokenSerializer,
                                 UserSerializer)
