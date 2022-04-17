@@ -16,11 +16,6 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
-    # Own
-    'api.apps.ApiConfig',
-    'reviews.apps.ReviewsConfig',
-    'titles.apps.TitlesConfig',
-    'users.apps.UsersConfig',
     # Django
     'django.contrib.admin',
     'django.contrib.auth',
@@ -28,8 +23,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
     # 3rd
     'rest_framework_simplejwt',
+    # Own
+    'api.apps.ApiConfig',
+    'reviews.apps.ReviewsConfig',
+    'titles.apps.TitlesConfig',
+    'users.apps.UsersConfig',
 ]
 
 MIDDLEWARE = [
@@ -118,8 +119,10 @@ EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'sent_emails')
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-    )
+        'rest_framework_simplejwt.authentication.JWTAuthentication',),
+    'DEFAULT_PAGINATION_CLASS':
+        'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10,
 }
 
 SIMPLE_JWT = {
