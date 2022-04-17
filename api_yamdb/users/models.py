@@ -1,14 +1,15 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
+USER = 'user'
+MODERATOR = 'moderator'
+ADMIN = 'admin'
+
 
 class User(AbstractUser):
-    USER = 'US'
-    MODER = 'MOD'
-    ADMIN = 'ADM'
-    USERS_ROLES = [
+    USER_ROLES = [
         (USER, 'User'),
-        (MODER, 'Moderator'),
+        (MODERATOR, 'Moderator'),
         (ADMIN, 'Admin'),
     ]
     email = models.EmailField(
@@ -21,5 +22,5 @@ class User(AbstractUser):
         'Биография',
         blank=True,
     )
-    role = models.CharField(max_length=32, choices=USERS_ROLES, default='User')
+    role = models.CharField(max_length=32, choices=USERS_ROLES, default='user')
     confirmation_code = models.CharField(max_length=8)
