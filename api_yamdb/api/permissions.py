@@ -38,15 +38,12 @@ class IsAdmin(permissions.BasePermission):
 
 class IsModer(permissions.BasePermission):
 
-    def has_object_permission(self, request, view, obj):
+    def has_permission(self, request, view):
         if hasattr(request.user, 'role') and request.user.role == MODERATOR:
             return True
         return False
 
-
-class IsUser(permissions.BasePermission):
-
     def has_object_permission(self, request, view, obj):
-        if hasattr(request.user, 'role') and request.user.role == USER:
+        if hasattr(request.user, 'role') and request.user.role == MODERATOR:
             return True
         return False
