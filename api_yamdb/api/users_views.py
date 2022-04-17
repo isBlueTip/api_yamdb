@@ -4,14 +4,18 @@ from random import randint
 from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404
 
-from rest_framework import status
+from rest_framework import status, viewsets
 from rest_framework.response import Response
+from rest_framework.permissions import AllowAny
 from rest_framework.views import APIView
 
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from users.models import User
-from .users_serializers import SignupSerializer, TokenSerializer
+from .permissions import IsAdmin, IsModer, IsUser
+from .users_serializers import (SignupSerializer,
+                                TokenSerializer,
+                                UserSerializer)
 
 from loggers import logger, formatter
 
@@ -47,6 +51,8 @@ def get_tokens_for_user(user):
 class SignupView(APIView):
     """View to register a new user and verify email."""
 
+    permission_classes = [AllowAny, ]
+
     def post(self, request):
         serializer = SignupSerializer(data=request.data)
         if serializer.is_valid():
@@ -60,6 +66,8 @@ class SignupView(APIView):
 class TokenView(APIView):
     """View to request a new user's JWT token."""
 
+    permission_classes = [AllowAny, ]
+
     def post(self, request):
         serializer = TokenSerializer(data=request.data)
         if serializer.is_valid():
@@ -68,3 +76,19 @@ class TokenView(APIView):
             token = get_tokens_for_user(user)
             return Response(token, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class UserViewSet(viewsets.ModelViewSet):
+
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [IsAdmin, ]
+    # pagination_class = LimitOffsetPagination
+
+    # def create(self, request, *args, **kwargs):
+    #     serializer = PostSerializer(
+    #         data=request.data, context={'request': request})
+    #     if serializer.is_valid() and isinstance(request.user, User):
+    #         serializer.save(author=request.user)
+    #         return Response(serializer.data, status=status.HTTP_201_CREATED)
+    #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

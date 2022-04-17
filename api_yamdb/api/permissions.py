@@ -21,8 +21,13 @@ class ReadOnly(permissions.BasePermission):
 
 class IsAdmin(permissions.BasePermission):
 
+    def has_permission(self, request, view):
+        if hasattr(request.user, 'role') and request.user.role == 'ADM':
+            return True
+        return False
+
     def has_object_permission(self, request, view, obj):
-        if request.user.role == 'Admin':
+        if hasattr(request.user, 'role') and request.user.role == 'ADM':
             return True
         return False
 

@@ -40,9 +40,9 @@ class TokenSerializer(serializers.ModelSerializer):
         return data
 
 
-# class UserSerializer(serializers.ModelSerializer):
-#
-#     class Meta:
-#         model = User
-#         fields = ['pk', 'username', 'first_name',
-#                   'last_name', 'email', 'bio', 'role']  # TODO delete pk
+class UserSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = User
+        fields = ['pk', 'username', 'first_name',
+                  'last_name', 'email', 'bio', 'role']
