@@ -1,5 +1,7 @@
 from rest_framework import permissions
 
+from users.models import USER, MODERATOR, ADMIN
+
 
 class IsAuthorOrReadOnly(permissions.BasePermission):
     """
@@ -22,12 +24,12 @@ class ReadOnly(permissions.BasePermission):
 class IsAdmin(permissions.BasePermission):
 
     def has_permission(self, request, view):
-        if hasattr(request.user, 'role') and request.user.role == 'ADM':
+        if hasattr(request.user, 'role') and request.user.role == ADMIN:
             return True
         return False
 
     def has_object_permission(self, request, view, obj):
-        if hasattr(request.user, 'role') and request.user.role == 'ADM':
+        if hasattr(request.user, 'role') and request.user.role == ADMIN:
             return True
         return False
 
@@ -35,7 +37,7 @@ class IsAdmin(permissions.BasePermission):
 class IsModer(permissions.BasePermission):
 
     def has_object_permission(self, request, view, obj):
-        if request.user.role == 'Moder':
+        if hasattr(request.user, 'role') and request.user.role == MODERATOR:
             return True
         return False
 
@@ -43,6 +45,6 @@ class IsModer(permissions.BasePermission):
 class IsUser(permissions.BasePermission):
 
     def has_object_permission(self, request, view, obj):
-        if request.user.role == 'User':
+        if hasattr(request.user, 'role') and request.user.role == USER:
             return True
         return False
