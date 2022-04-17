@@ -3,8 +3,10 @@ from random import randint
 
 from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404
+from django_filters.rest_framework import DjangoFilterBackend
 
-from rest_framework import status, viewsets
+
+from rest_framework import status, viewsets, filters
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from rest_framework.views import APIView
@@ -82,13 +84,6 @@ class UserViewSet(viewsets.ModelViewSet):
 
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    filter_backends = (DjangoFilterBackend, filters.SearchFilter)
+    search_fields = ('username',)
     permission_classes = [IsAdmin, ]
-    # pagination_class = LimitOffsetPagination
-
-    # def create(self, request, *args, **kwargs):
-    #     serializer = PostSerializer(
-    #         data=request.data, context={'request': request})
-    #     if serializer.is_valid() and isinstance(request.user, User):
-    #         serializer.save(author=request.user)
-    #         return Response(serializer.data, status=status.HTTP_201_CREATED)
-    #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
