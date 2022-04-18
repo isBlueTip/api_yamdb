@@ -9,10 +9,18 @@ class Category(models.Model):
     slug = models.SlugField(unique=True, max_length=50)
 
 
-class Title(models.Model):
+class Genre(models.Model):
     name = models.CharField(max_length=200)
-    year = models.IntegerField()
-    description = models.CharField(max_length=200, blank=True, null=True)
+    slug = models.SlugField(unique=True)
+
+
+class Title(models.Model):
+    class Meta:
+        ordering = ["-id"]
+
+    name = models.CharField(max_length=200)
+    year = models.PositiveSmallIntegerField()
+    description = models.TextField(blank=True, null=True)
     category = models.ForeignKey(
         Category,
         on_delete=models.CASCADE,
@@ -20,14 +28,10 @@ class Title(models.Model):
         blank=True,
         null=True,
     )
+    genre = models.ManyToManyField(Genre, through="Genre_title")
 
     def __str__(self):
         return self.name
-
-
-class Genre(models.Model):
-    name = models.CharField(max_length=200)
-    slug = models.SlugField(unique=True)
 
 
 class Genre_title(models.Model):
