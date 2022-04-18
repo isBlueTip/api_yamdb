@@ -14,7 +14,7 @@ from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from users.models import User
-from .permissions import IsAdmin, IsModer, IsUser
+from .permissions import IsAdmin, IsModer
 from .users_serializers import (SignupSerializer,
                                 TokenSerializer,
                                 UserSerializer)
@@ -87,3 +87,4 @@ class UserViewSet(viewsets.ModelViewSet):
     filter_backends = (DjangoFilterBackend, filters.SearchFilter)
     search_fields = ('username',)
     permission_classes = [IsAdmin, ]
+    lookup_field = 'username'
