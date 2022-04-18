@@ -17,7 +17,7 @@ class ReviewViewSet(viewsets.ModelViewSet):
         elif self.action in ('update', 'partial_update', 'destroy'):
             self.permission_classes = [IsAuthorOrReadOnly | IsAdmin | IsModer]
 
-        return super(CommentViewSet, self).get_permissions()
+        return super().get_permissions()
 
     def get_queryset(self):
         title = get_object_or_404(Title, pk=self.kwargs.get('title_id'))
@@ -37,7 +37,7 @@ class CommentViewSet(viewsets.ModelViewSet):
         elif self.action in ('update', 'partial_update', 'destroy'):
             self.permission_classes = [IsAuthorOrReadOnly | IsAdmin | IsModer]
 
-        return super(CommentViewSet, self).get_permissions()
+        return super().get_permissions()
 
     def get_queryset(self):
         review = get_object_or_404(Review, pk=self.kwargs.get('review_id'))
