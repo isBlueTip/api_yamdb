@@ -9,6 +9,11 @@ class Category(models.Model):
     slug = models.SlugField(unique=True, max_length=50)
 
 
+class Genre(models.Model):
+    name = models.CharField(max_length=200)
+    slug = models.SlugField(unique=True)
+
+
 class Title(models.Model):
     class Meta:
         ordering = ["-id"]
@@ -23,14 +28,10 @@ class Title(models.Model):
         blank=True,
         null=True,
     )
+    genre = models.ManyToManyField(Genre, through='Genre_title')
 
     def __str__(self):
         return self.name
-
-
-class Genre(models.Model):
-    name = models.CharField(max_length=200)
-    slug = models.SlugField(unique=True)
 
 
 class Genre_title(models.Model):
