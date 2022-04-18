@@ -10,6 +10,9 @@ class Category(models.Model):
 
 
 class Title(models.Model):
+    class Meta:
+        ordering = ["-id"]
+
     name = models.CharField(max_length=200)
     year = models.IntegerField()
     description = models.CharField(max_length=200, blank=True, null=True)
