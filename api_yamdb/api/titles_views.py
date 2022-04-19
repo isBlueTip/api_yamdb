@@ -1,10 +1,10 @@
 from titles.models import Category, Genre, Title
-from .titles_serializers import (
+from api.titles_serializers import (
     CategorySerializer,
     GenreSerializer,
     TitleSerializer,
     TitlePostSerializer,
-)
+
 from rest_framework import filters
 from django_filters.rest_framework import DjangoFilterBackend
 from django_filters import FilterSet
@@ -91,6 +91,7 @@ class TitleViewSet(viewsets.ModelViewSet):
             ]
 
         return super(TitleViewSet, self).get_permissions()
+
 
     def get_serializer_class(self):
         if self.action in ["list", "retrieve"]:

@@ -1,5 +1,6 @@
+from django.shortcuts import get_object_or_404
 from rest_framework import serializers
-from rest_framework.relations import SlugRelatedField, PrimaryKeyRelatedField
+from rest_framework.relations import PrimaryKeyRelatedField, SlugRelatedField
 
 from reviews.models import Comment, Review
 from titles.models import Title
@@ -17,7 +18,7 @@ class ReviewSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         author = validated_data.get('author')
-        title = Title.objects.get(pk=validated_data.get('title_id'))
+        title = get_object_or_404(Title, pk=validated_data.get('title_id'))
         if title.reviews.filter(author=author).exists():
             raise serializers.ValidationError(detail='Вы уже оставили отзыв на'
                                               ' это произведение.')
