@@ -24,6 +24,9 @@ class Review(models.Model):
                 name='unique_author_title',
             )
         ]
+        
+    class Meta:
+        ordering = ["-id"]
 
     def __str__(self):
         return self.text
@@ -36,6 +39,9 @@ class Comment(models.Model):
     author = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name='comments')
     pub_date = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["-id"]
 
     def __str__(self):
         return self.text
