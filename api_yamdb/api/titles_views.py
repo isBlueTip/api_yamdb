@@ -4,10 +4,11 @@ from api.titles_serializers import (
     GenreSerializer,
     TitleSerializer,
     TitlePostSerializer,
-
-from rest_framework import filters
+)
+import django_filters
 from django_filters.rest_framework import DjangoFilterBackend
 from django_filters import FilterSet
+from rest_framework import filters
 from rest_framework import viewsets
 from .permissions import IsAdmin, ReadOnly
 from django.shortcuts import get_object_or_404
@@ -33,7 +34,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
             ]
 
         return super(CategoryViewSet, self).get_permissions()
-
+  
 
 @action(detail=True, gmethods=["get", "post", "delete"])
 class GenreViewSet(viewsets.ModelViewSet):
@@ -72,7 +73,7 @@ class TitleFilter(django_filters.FilterSet):
 class TitleViewSet(viewsets.ModelViewSet):
     queryset = Title.objects.all()
     serializer_class = TitleSerializer
-    filter_backends = (filters.DjangoFilterBackend,)
+    filter_backends = (DjangoFilterBackend,)
     filterset_class = TitleFilter
 
     def get_permissions(self):
@@ -91,7 +92,6 @@ class TitleViewSet(viewsets.ModelViewSet):
             ]
 
         return super(TitleViewSet, self).get_permissions()
-
 
     def get_serializer_class(self):
         if self.action in ["list", "retrieve"]:

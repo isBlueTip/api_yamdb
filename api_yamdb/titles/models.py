@@ -28,9 +28,7 @@ class Title(models.Model):
         blank=True,
         null=True,
     )
-
     genre = models.ManyToManyField(Genre, through="Genre_title")
-
 
     def __str__(self):
         return self.name
