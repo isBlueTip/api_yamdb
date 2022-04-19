@@ -3,8 +3,7 @@ from api.titles_serializers import (
     CategorySerializer,
     GenreSerializer,
     TitleSerializer,
-    TitlePostSerializer,
-)
+    TitlePostSerializer,)
 import django_filters
 from django_filters.rest_framework import DjangoFilterBackend
 from django_filters import FilterSet
