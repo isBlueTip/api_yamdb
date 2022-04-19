@@ -1,5 +1,5 @@
 from titles.models import Category, Genre, Title
-from .titles_serializers import (
+from api.titles_serializers import (
     CategorySerializer,
     GenreSerializer,
     TitleSerializer,
@@ -34,7 +34,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
             ]
 
         return super(CategoryViewSet, self).get_permissions()
-
+  
 
 @action(detail=True, gmethods=["get", "post", "delete"])
 class GenreViewSet(viewsets.ModelViewSet):
