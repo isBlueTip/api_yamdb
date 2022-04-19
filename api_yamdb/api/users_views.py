@@ -7,17 +7,19 @@ from django_filters.rest_framework import DjangoFilterBackend
 
 
 from rest_framework import status, viewsets, filters
+from rest_framework.generics import RetrieveUpdateAPIView
 from rest_framework.response import Response
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.views import APIView
 
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from users.models import User
-from .permissions import IsAdmin, IsModer
+from .permissions import IsAdmin
 from .users_serializers import (SignupSerializer,
                                 TokenSerializer,
-                                UserSerializer)
+                                UserSerializer,
+                                MeSerializer)
 
 from loggers import logger, formatter
 
@@ -25,7 +27,7 @@ LOG_NAME = 'users_views.log'
 
 file_handler = logging.FileHandler(LOG_NAME)
 file_handler.setFormatter(formatter)
-logger.addHandler(file_handler)  # logger.debug(<отслеживаемый объект>)
+logger.addHandler(file_handler)
 
 
 def send_otp(email):
@@ -45,7 +47,6 @@ def get_tokens_for_user(user):
     refresh = RefreshToken.for_user(user)
 
     return {
-        # 'refresh': str(refresh),
         'access': str(refresh.access_token),
     }
 
@@ -88,3 +89,13 @@ class UserViewSet(viewsets.ModelViewSet):
     search_fields = ('username',)
     permission_classes = [IsAdmin, ]
     lookup_field = 'username'
+
+
+class MeView(RetrieveUpdateAPIView):
+
+    permission_classes = [IsAuthenticated, ]
+    queryset = User.objects.all()
+    serializer_class = MeSerializer
+
+    def get_object(self):
+        return self.request.user

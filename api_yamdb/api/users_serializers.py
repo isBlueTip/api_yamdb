@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from rest_framework.relations import SlugRelatedField
+from rest_framework.relations import SlugRelatedField, StringRelatedField
 from django.shortcuts import get_object_or_404
 from django.contrib.auth import get_user_model
 
@@ -41,6 +41,15 @@ class TokenSerializer(serializers.ModelSerializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'role',
+                  'first_name', 'last_name', 'bio']
+
+
+class MeSerializer(serializers.ModelSerializer):
+    role = StringRelatedField(read_only=True)
 
     class Meta:
         model = User
