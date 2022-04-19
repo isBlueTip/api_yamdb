@@ -19,8 +19,8 @@ class Title(models.Model):
         ordering = ["-id"]
 
     name = models.CharField(max_length=200)
-    year = models.IntegerField()
-    description = models.CharField(max_length=200, blank=True, null=True)
+    year = models.PositiveSmallIntegerField()
+    description = models.TextField(blank=True, null=True)
     category = models.ForeignKey(
         Category,
         on_delete=models.CASCADE,
@@ -28,7 +28,9 @@ class Title(models.Model):
         blank=True,
         null=True,
     )
-    genre = models.ManyToManyField(Genre, through='Genre_title')
+
+    genre = models.ManyToManyField(Genre, through="Genre_title")
+
 
     def __str__(self):
         return self.name
