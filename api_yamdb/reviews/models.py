@@ -25,7 +25,7 @@ class Review(models.Model):
                 name='unique_author_title',
             )
         ]
-       
+
     def __str__(self):
         return self.text
 
