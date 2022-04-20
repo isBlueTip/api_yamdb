@@ -1,5 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.db import models
+import datetime
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 User = get_user_model()
 
@@ -14,12 +16,20 @@ class Genre(models.Model):
     slug = models.SlugField(unique=True)
 
 
-class Title(models.Model):
-    class Meta:
-        ordering = ["-id"]
+def current_year():
+    return datetime.date.today().year
 
+
+def max_value_current_year(value):
+    return MaxValueValidator(current_year())(value)
+
+
+class Title(models.Model):
     name = models.CharField(max_length=200)
-    year = models.PositiveSmallIntegerField()
+    year = models.PositiveIntegerField(
+        default=current_year(),
+        validators=[MinValueValidator(1984), max_value_current_year],
+    )
     description = models.TextField(blank=True, null=True)
     category = models.ForeignKey(
         Category,
@@ -29,6 +39,9 @@ class Title(models.Model):
         null=True,
     )
     genre = models.ManyToManyField(Genre, through="Genre_title")
+
+    class Meta:
+        ordering = ["-id"]
 
     def __str__(self):
         return self.name

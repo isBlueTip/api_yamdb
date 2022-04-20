@@ -1,30 +1,22 @@
-from titles.models import Category, Genre, Title
-from api.titles_serializers import (
-    CategorySerializer,
-    GenreSerializer,
-    TitleSerializer,
-    TitlePostSerializer,
-)
+from titles.models import Category
+from titles.models import Genre
+from titles.models import Title
+from api.titles_serializers import CategorySerializer
+from api.titles_serializers import GenreSerializer
+from api.titles_serializers import TitleSerializer
+from api.titles_serializers import TitlePostSerializer
 import django_filters
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework.mixins import (
-    CreateModelMixin,
-    ListModelMixin,
-    DestroyModelMixin,
-)
-from django_filters import FilterSet
 from rest_framework import filters
 from rest_framework import viewsets
-from .permissions import IsAdmin, ReadOnly, AdminOrReadOnly
-from django.shortcuts import get_object_or_404
-from rest_framework.decorators import action
+from .permissions import IsAdmin
+from .permissions import ReadOnly
+from .permissions import AdminOrReadOnly
+from .titles_mixins import CreateListDestroyViewSet
 
 
-@action(detail=True, gmethods=["get", "post", "delete"])
 class CategoryViewSet(
-    CreateModelMixin,
-    ListModelMixin,
-    DestroyModelMixin,
+    CreateListDestroyViewSet,
     viewsets.GenericViewSet,
 ):
     permission_classes = [
@@ -37,13 +29,7 @@ class CategoryViewSet(
     lookup_field = "slug"
 
 
-@action(detail=True, gmethods=["get", "post", "delete"])
-class GenreViewSet(
-    CreateModelMixin,
-    ListModelMixin,
-    DestroyModelMixin,
-    viewsets.GenericViewSet,
-):
+class GenreViewSet(CreateListDestroyViewSet, viewsets.GenericViewSet):
     permission_classes = [
         AdminOrReadOnly,
     ]

@@ -1,18 +1,19 @@
 from rest_framework import serializers
-from titles.models import Category, Genre, Title
-from datetime import datetime
+from titles.models import Category
+from titles.models import Genre
+from titles.models import Title
 from django.db.models import Avg
 
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
-        fields = ("name", "slug")
+        exclude = ["id"]
         model = Category
 
 
 class GenreSerializer(serializers.ModelSerializer):
     class Meta:
-        fields = ("name", "slug")
+        exclude = ["id"]
         model = Genre
 
 
@@ -38,14 +39,6 @@ class TitleSerializer(serializers.ModelSerializer):
         if rating is None:
             return rating
         return int(rating)
-
-    def validate(self):
-        today = datetime.date.now().year
-        if today < self.year:
-            raise serializers.ValidationError(
-                "Нельзя добавлять произведения, которые еще не вышли"
-            )
-        return self.year
 
 
 class TitlePostSerializer(serializers.ModelSerializer):

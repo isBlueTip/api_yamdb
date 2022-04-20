@@ -16,14 +16,23 @@ class ReviewSerializer(serializers.ModelSerializer):
         fields = ['id', 'title', 'text', 'author', 'score', 'pub_date']
         model = Review
 
-    def create(self, validated_data):
-        author = validated_data.get('author')
-        title = get_object_or_404(Title, pk=validated_data.get('title_id'))
-        if title.reviews.filter(author=author).exists():
+    def validate(self, data):
+        """Проверка уникальности отзыва от пользователя на произведение."""
+        title = get_object_or_404(
+            Title, id=self.context['view'].kwargs.get("title_id")
+        )
+        author = self.context.get('request').user
+        if (title.reviews.filter(author=author).exists()
+                and self.context['request'].method == 'POST'):
             raise serializers.ValidationError(detail='Вы уже оставили отзыв на'
                                               ' это произведение.')
-        review = Review.objects.create(**validated_data)
-        return review
+        return data
+
+    def validate_score(self, value):
+        """Проверка: score в диапазоне от 1 до 10"""
+        if not (1 <= value <= 10):
+            raise serializers.ValidationError('Оценка должна быть от 1 до 10.')
+        return value
 
 
 class CommentSerializer(serializers.ModelSerializer):
