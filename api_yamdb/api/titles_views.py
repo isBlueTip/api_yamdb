@@ -12,11 +12,9 @@ from rest_framework.mixins import (
     ListModelMixin,
     DestroyModelMixin,
 )
-from django_filters import FilterSet
 from rest_framework import filters
 from rest_framework import viewsets
 from .permissions import IsAdmin, ReadOnly, AdminOrReadOnly
-from django.shortcuts import get_object_or_404
 from rest_framework.decorators import action
 
 
