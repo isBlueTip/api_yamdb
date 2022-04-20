@@ -18,15 +18,13 @@ class Review(models.Model):
     pub_date = models.DateTimeField(auto_now_add=True)
 
     class Meta:
+        ordering = ["-id"]
         constraints = [
             models.UniqueConstraint(
                 fields=['author', 'title'],
                 name='unique_author_title',
             )
         ]
-        
-    class Meta:
-        ordering = ["-id"]
 
     def __str__(self):
         return self.text
