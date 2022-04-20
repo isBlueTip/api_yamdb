@@ -24,3 +24,9 @@ class User(AbstractUser):
     )
     role = models.CharField(max_length=32, choices=USER_ROLES, default='user')
     confirmation_code = models.CharField(max_length=8)
+
+    class Meta:
+        ordering = ["-id"]
+
+    def __str__(self):
+        return self.username
