@@ -3,57 +3,55 @@ from api.titles_serializers import (
     CategorySerializer,
     GenreSerializer,
     TitleSerializer,
-    TitlePostSerializer,)
+    TitlePostSerializer,
+)
 import django_filters
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.mixins import (
+    CreateModelMixin,
+    ListModelMixin,
+    DestroyModelMixin,
+)
 from django_filters import FilterSet
 from rest_framework import filters
 from rest_framework import viewsets
-from .permissions import IsAdmin, ReadOnly
+from .permissions import IsAdmin, ReadOnly, AdminOrReadOnly
 from django.shortcuts import get_object_or_404
 from rest_framework.decorators import action
 
 
 @action(detail=True, gmethods=["get", "post", "delete"])
-class CategoryViewSet(viewsets.ModelViewSet):
+class CategoryViewSet(
+    CreateModelMixin,
+    ListModelMixin,
+    DestroyModelMixin,
+    viewsets.GenericViewSet,
+):
+    permission_classes = [
+        AdminOrReadOnly,
+    ]
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
     filter_backends = (filters.SearchFilter,)
     search_fields = ("name",)
     lookup_field = "slug"
 
-    def get_permissions(self):
-        if self.action in ("list"):
-            self.permission_classes = [
-                ReadOnly,
-            ]
-        elif self.action in ("destroy", "create"):
-            self.permission_classes = [
-                IsAdmin,
-            ]
-
-        return super(CategoryViewSet, self).get_permissions()
-  
 
 @action(detail=True, gmethods=["get", "post", "delete"])
-class GenreViewSet(viewsets.ModelViewSet):
+class GenreViewSet(
+    CreateModelMixin,
+    ListModelMixin,
+    DestroyModelMixin,
+    viewsets.GenericViewSet,
+):
+    permission_classes = [
+        AdminOrReadOnly,
+    ]
     queryset = Genre.objects.all()
     serializer_class = GenreSerializer
     filter_backends = (filters.SearchFilter,)
     search_fields = ("name",)
     lookup_field = "slug"
-
-    def get_permissions(self):
-        if self.action in ("list"):
-            self.permission_classes = [
-                ReadOnly,
-            ]
-        elif self.action in ("destroy", "create"):
-            self.permission_classes = [
-                IsAdmin,
-            ]
-
-        return super(GenreViewSet, self).get_permissions()
 
 
 class TitleFilter(django_filters.FilterSet):
