@@ -35,7 +35,7 @@ class SignupView(APIView):
     def post(self, request):
         serializer = SignupSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        email = request.data.get('email')
+        email = serializer.validated_data.get('email')
         otp = send_otp(email)
         serializer.save(confirmation_code=otp)
         return Response(serializer.data, status=status.HTTP_200_OK)
@@ -50,7 +50,7 @@ class TokenView(APIView):
         serializer = TokenSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = get_object_or_404(User,
-                                 username=request.data.get('username'))
+                                 serializer.validated_data.get('username'))
         token = get_tokens_for_user(user)
         return Response(token, status=status.HTTP_201_CREATED)
 

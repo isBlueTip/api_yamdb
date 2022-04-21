@@ -37,6 +37,9 @@ class TokenSerializer(serializers.ModelSerializer):
         if passed_otp != true_otp:
             raise serializers.ValidationError(
                 'Введите действующий код подтверждения.')
+        # add read_only username to validated data after
+        # all test are passed
+        data['username'] = username
         return data
 
 
