@@ -1,7 +1,5 @@
 import logging
-from random import randint
 
-from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
 
@@ -12,14 +10,13 @@ from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.views import APIView
 
-from rest_framework_simplejwt.tokens import RefreshToken
-
 from users.models import User
 from .permissions import IsAdmin
 from .users_serializers import (SignupSerializer,
                                 TokenSerializer,
                                 UserSerializer,
                                 MeSerializer)
+from .utils import send_otp, get_tokens_for_user
 
 from loggers import logger, formatter
 
@@ -30,25 +27,25 @@ file_handler.setFormatter(formatter)
 logger.addHandler(file_handler)
 
 
-def send_otp(email):
-    key = randint(99999, 999999)
-    send_mail(
-        'Регистрация нового пользователя',
-        f'Ваш код подтверждения: {key}.'
-        'Используйте его для авторизации.',
-        'yamdb@example.com',  # 'from' field
-        [f'{email}'],  # 'to' field
-        fail_silently=False,
-    )
-    return key
-
-
-def get_tokens_for_user(user):
-    refresh = RefreshToken.for_user(user)
-
-    return {
-        'access': str(refresh.access_token),
-    }
+# def send_otp(email):
+#     key = randint(99999, 999999)
+#     send_mail(
+#         'Регистрация нового пользователя',
+#         f'Ваш код подтверждения: {key}.'
+#         'Используйте его для авторизации.',
+#         'yamdb@example.com',  # 'from' field
+#         [f'{email}'],  # 'to' field
+#         fail_silently=False,
+#     )
+#     return key
+#
+#
+# def get_tokens_for_user(user):
+#     refresh = RefreshToken.for_user(user)
+#
+#     return {
+#         'access': str(refresh.access_token),
+#     }
 
 
 class SignupView(APIView):
