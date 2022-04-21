@@ -22,7 +22,12 @@ class User(AbstractUser):
         'Биография',
         blank=True,
     )
-    role = models.CharField(max_length=32, choices=USER_ROLES, default='user')
+    role = models.CharField(
+        'роль на сайте',
+        max_length=32,
+        choices=USER_ROLES,
+        default='user'
+    )
     confirmation_code = models.CharField(max_length=8)
 
     class Meta:
