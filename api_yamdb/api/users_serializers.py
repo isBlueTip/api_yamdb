@@ -19,21 +19,15 @@ class SignupSerializer(serializers.ModelSerializer):
         return username
 
 
-class TokenSerializer(serializers.ModelSerializer):
-    username = SlugRelatedField(slug_field='username', read_only=True)
-
-    class Meta:
-        model = User
-        fields = ['username', 'confirmation_code']
+class TokenSerializer(serializers.Serializer):
+    username = serializers.CharField(required=True)
+    confirmation_code = serializers.CharField(required=True)
 
     def validate(self, data):
-        username = self.initial_data.get('username')
-        if username is None:
-            raise serializers.ValidationError(
-                'Введите username.')
+        username = data.get('username')
         user = get_object_or_404(User, username=username)
         true_otp = user.confirmation_code
-        passed_otp = self.initial_data.get('confirmation_code')
+        passed_otp = data.get('confirmation_code')
         if passed_otp != true_otp:
             raise serializers.ValidationError(
                 'Введите действующий код подтверждения.')
