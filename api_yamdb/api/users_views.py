@@ -11,11 +11,10 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.views import APIView
 
 from users.models import User
-from .permissions import IsAdmin
+from .permissions import IsAdmin, AdminOrReadOnly, IsAuthorOrReadOnly
 from .users_serializers import (SignupSerializer,
                                 TokenSerializer,
-                                UserSerializer,
-                                MeSerializer)
+                                UserSerializer)
 
 from .utils import send_otp, get_tokens_for_user
 
@@ -67,17 +66,25 @@ class UserViewSet(viewsets.ModelViewSet):
 
     @action(detail=False,
             methods=['patch', 'get'],
-            permission_classes=[IsAuthenticated, ],
+            permission_classes=[IsAuthenticated],
             url_path='me',
             name='Change current user details')
     def change_user_info(self, request):
         user = self.request.user
         if request.method == 'PATCH':
-            print(1)
-            serializer = MeSerializer(user, data=request.data, partial=True)
+            # copy request.data dict
+            # and paste 'role' key only if current user is admin
+            data = request.data.copy()
+            if data.get('role'):
+                data.pop('role')
+            print(request.data.get('role'))
+            if request.user.role == 'admin' and request.data.get('role'):
+                data['role'] = request.data['role']
+            else:
+                data['role'] = request.user.role
+            serializer = UserSerializer(user, data=data, partial=True)
             serializer.is_valid(raise_exception=True)
             serializer.save()
         else:
-            serializer = MeSerializer(user)
+            serializer = UserSerializer(user)
         return Response(serializer.data, status=status.HTTP_200_OK)
-
