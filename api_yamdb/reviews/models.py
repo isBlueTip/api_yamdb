@@ -43,7 +43,7 @@ class Review(models.Model):
         verbose_name_plural = 'Отзывы'
 
     def __str__(self):
-        return self.text
+        return self.text[:50]
 
 
 class Comment(models.Model):

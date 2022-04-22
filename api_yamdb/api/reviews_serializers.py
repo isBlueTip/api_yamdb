@@ -7,6 +7,7 @@ from titles.models import Title
 
 
 class ReviewSerializer(serializers.ModelSerializer):
+    """Serializer to work with Review model."""
     author = SlugRelatedField(slug_field='username', read_only=True)
     title = PrimaryKeyRelatedField(write_only=True,
                                    queryset=Title.objects.all(),
@@ -36,6 +37,7 @@ class ReviewSerializer(serializers.ModelSerializer):
 
 
 class CommentSerializer(serializers.ModelSerializer):
+    """Serializer to work with Comment model."""
     author = SlugRelatedField(slug_field='username', read_only=True)
     review = PrimaryKeyRelatedField(write_only=True,
                                     queryset=Review.objects.all(),

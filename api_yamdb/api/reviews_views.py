@@ -9,15 +9,11 @@ from titles.models import Title
 
 
 class ReviewViewSet(viewsets.ModelViewSet):
+    """Viewset to work with reviews."""
     serializer_class = ReviewSerializer
-
-    def get_permissions(self):
-        if self.action in ('list', 'create', 'retrieve'):
-            self.permission_classes = [IsAuthenticatedOrReadOnly, ]
-        elif self.action in ('update', 'partial_update', 'destroy'):
-            self.permission_classes = [IsAuthorOrReadOnly | IsAdmin | IsModer]
-
-        return super().get_permissions()
+    permission_classes = [
+        IsAuthenticatedOrReadOnly & (IsAuthorOrReadOnly | IsAdmin | IsModer)
+    ]
 
     def get_queryset(self):
         title = get_object_or_404(Title, pk=self.kwargs.get('title_id'))
@@ -30,15 +26,11 @@ class ReviewViewSet(viewsets.ModelViewSet):
 
 
 class CommentViewSet(viewsets.ModelViewSet):
+    """Viewset to work with comments."""
     serializer_class = CommentSerializer
-
-    def get_permissions(self):
-        if self.action in ('list', 'create', 'retrieve'):
-            self.permission_classes = [IsAuthenticatedOrReadOnly, ]
-        elif self.action in ('update', 'partial_update', 'destroy'):
-            self.permission_classes = [IsAuthorOrReadOnly | IsAdmin | IsModer]
-
-        return super().get_permissions()
+    permission_classes = [
+        IsAuthenticatedOrReadOnly & (IsAuthorOrReadOnly | IsAdmin | IsModer)
+    ]
 
     def get_queryset(self):
         review = get_object_or_404(Review, pk=self.kwargs.get('review_id'))
