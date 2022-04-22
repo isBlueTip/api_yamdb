@@ -21,6 +21,8 @@ class ReadOnly(permissions.BasePermission):
 
 
 class IsAdmin(permissions.BasePermission):
+    """Object-level permissions to only allow users
+    with 'admin' role to edit the object."""
     def has_permission(self, request, view):
         if (
             hasattr(request.user, "role") and request.user.role == ADMIN
@@ -37,6 +39,8 @@ class IsAdmin(permissions.BasePermission):
 
 
 class IsModer(permissions.BasePermission):
+    """Object-level permissions to only allow users
+    with 'moderator' role to edit the object."""
     def has_permission(self, request, view):
         if hasattr(request.user, "role") and request.user.role == MODERATOR:
             return True
@@ -49,6 +53,8 @@ class IsModer(permissions.BasePermission):
 
 
 class AdminOrReadOnly(permissions.BasePermission):
+    """Permissions to only allow users with 'admin' role
+    to edit the object, otherwise read-only access."""
     def has_permission(self, request, view):
         return (
             request.method in permissions.SAFE_METHODS

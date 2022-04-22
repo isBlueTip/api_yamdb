@@ -7,12 +7,14 @@ User = get_user_model()
 
 
 class SignupSerializer(serializers.ModelSerializer):
+    """Serializer to register new users."""
 
     class Meta:
         model = User
         fields = ['username', 'email']
 
     def validate_username(self, username):
+        # username 'me' is restricted
         if username == 'me':
             raise serializers.ValidationError(
                 'Используйте другое имя пользователя.')
@@ -20,6 +22,8 @@ class SignupSerializer(serializers.ModelSerializer):
 
 
 class TokenSerializer(serializers.Serializer):
+    """Serializer to work with sending JWT token."""
+
     username = serializers.CharField(required=True)
     confirmation_code = serializers.CharField(required=True)
 
@@ -28,6 +32,7 @@ class TokenSerializer(serializers.Serializer):
         user = get_object_or_404(User, username=username)
         true_otp = user.confirmation_code
         passed_otp = data.get('confirmation_code')
+        # compare otp from json against the one from db
         if passed_otp != true_otp:
             raise serializers.ValidationError(
                 'Введите действующий код подтверждения.')
@@ -35,6 +40,7 @@ class TokenSerializer(serializers.Serializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
+    """Serializer to work with User model."""
 
     class Meta:
         model = User

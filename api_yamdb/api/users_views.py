@@ -3,22 +3,21 @@ import logging
 from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
 
-
 from rest_framework import status, viewsets, filters
 from rest_framework.decorators import action
-from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from loggers import logger, formatter
 from users.models import User
-from .permissions import IsAdmin, AdminOrReadOnly, IsAuthorOrReadOnly
+from .permissions import IsAdmin
 from .users_serializers import (SignupSerializer,
                                 TokenSerializer,
                                 UserSerializer)
 
 from .utils import send_otp, get_tokens_for_user
 
-from loggers import logger, formatter
 
 LOG_NAME = 'users_views.log'
 
@@ -56,6 +55,7 @@ class TokenView(APIView):
 
 
 class UserViewSet(viewsets.ModelViewSet):
+    """Viewset to work with users."""
 
     queryset = User.objects.all()
     serializer_class = UserSerializer
@@ -73,14 +73,14 @@ class UserViewSet(viewsets.ModelViewSet):
         user = self.request.user
         if request.method == 'PATCH':
             # copy request.data dict
-            # and paste 'role' key only if current user is admin
             data = request.data.copy()
             if data.get('role'):
                 data.pop('role')
             print(request.data.get('role'))
+            # 'role' key from request.data only if current user is admin
             if request.user.role == 'admin' and request.data.get('role'):
                 data['role'] = request.data['role']
-            else:
+            else:  # 'role' key = old role
                 data['role'] = request.user.role
             serializer = UserSerializer(user, data=data, partial=True)
             serializer.is_valid(raise_exception=True)
