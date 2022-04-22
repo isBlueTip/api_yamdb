@@ -19,14 +19,21 @@ class User(AbstractUser):
         null=False,
     )
     bio = models.TextField(
-        'Биография',
+        'биография',
         blank=True,
     )
-    role = models.CharField(max_length=32, choices=USER_ROLES, default='user')
+    role = models.CharField(
+        'роль на сайте',
+        max_length=32,
+        choices=USER_ROLES,
+        default='user'
+    )
     confirmation_code = models.CharField(max_length=8)
 
     class Meta:
         ordering = ["-id"]
+        verbose_name = 'пользователь'
+        verbose_name_plural = 'пользователи'
 
     def __str__(self):
         return self.username
