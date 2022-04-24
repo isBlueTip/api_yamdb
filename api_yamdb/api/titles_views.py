@@ -1,5 +1,3 @@
-import django_filters
-
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, viewsets
 
@@ -9,6 +7,7 @@ from api.titles_serializers import (CategorySerializer,
                                     TitleSerializer)
 from titles.models import Category, Genre, Title
 
+from .filters import TitleFilter
 from .permissions import IsAdmin, IsAdminOrReadOnly, ReadOnly
 from .titles_mixins import CreateListDestroyViewSet
 
@@ -36,19 +35,6 @@ class GenreViewSet(CreateListDestroyViewSet, viewsets.GenericViewSet):
     filter_backends = (filters.SearchFilter,)
     search_fields = ("name",)
     lookup_field = "slug"
-
-
-class TitleFilter(django_filters.FilterSet):
-    category = django_filters.CharFilter(field_name="category__slug")
-    genre = django_filters.CharFilter(field_name="genre__slug")
-    name = django_filters.CharFilter(
-        field_name="name", lookup_expr="icontains"
-    )
-    year = django_filters.NumberFilter(field_name="year")
-
-    class Meta:
-        model = Title
-        fields = {"category", "genre", "name", "year"}
 
 
 class TitleViewSet(viewsets.ModelViewSet):
