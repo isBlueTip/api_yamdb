@@ -11,7 +11,7 @@ from rest_framework import filters
 from rest_framework import viewsets
 from .permissions import IsAdmin
 from .permissions import ReadOnly
-from .permissions import AdminOrReadOnly
+from .permissions import IsAdminOrReadOnly
 from .titles_mixins import CreateListDestroyViewSet
 
 
@@ -20,7 +20,7 @@ class CategoryViewSet(
     viewsets.GenericViewSet,
 ):
     permission_classes = [
-        AdminOrReadOnly,
+        IsAdminOrReadOnly,
     ]
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
@@ -31,7 +31,7 @@ class CategoryViewSet(
 
 class GenreViewSet(CreateListDestroyViewSet, viewsets.GenericViewSet):
     permission_classes = [
-        AdminOrReadOnly,
+        IsAdminOrReadOnly,
     ]
     queryset = Genre.objects.all()
     serializer_class = GenreSerializer

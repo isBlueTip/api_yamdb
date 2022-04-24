@@ -10,9 +10,10 @@ class IsAuthorOrReadOnly(permissions.BasePermission):
     """
 
     def has_object_permission(self, request, view, obj):
-        if request.method in permissions.SAFE_METHODS:
-            return True
-        return obj.author == request.user
+        return (
+                request.method in permissions.SAFE_METHODS
+                or obj.author == request.user
+        )
 
 
 class ReadOnly(permissions.BasePermission):
@@ -24,40 +25,42 @@ class IsAdmin(permissions.BasePermission):
     """Object-level permissions to only allow users
     with 'admin' role to edit the object."""
     def has_permission(self, request, view):
-        if (
-            hasattr(request.user, "role") and request.user.role == ADMIN
-        ) or request.user.is_superuser:
-            return True
-        return False
+        return (
+                (hasattr(request.user, "role")
+                 and request.user.role == ADMIN)
+                or request.user.is_superuser
+        )
 
     def has_object_permission(self, request, view, obj):
-        if (
-            hasattr(request.user, "role") and request.user.role == ADMIN
-        ) or request.user.is_superuser:
-            return True
-        return False
+        return (
+                (hasattr(request.user, "role")
+                 and request.user.role == ADMIN)
+                or request.user.is_superuser
+        )
 
 
 class IsModer(permissions.BasePermission):
     """Object-level permissions to only allow users
     with 'moderator' role to edit the object."""
     def has_permission(self, request, view):
-        if hasattr(request.user, "role") and request.user.role == MODERATOR:
-            return True
-        return False
+        return (
+                hasattr(request.user, "role")
+                and request.user.role == MODERATOR
+        )
 
     def has_object_permission(self, request, view, obj):
-        if hasattr(request.user, "role") and request.user.role == MODERATOR:
-            return True
-        return False
+        return (
+                hasattr(request.user, "role")
+                and request.user.role == MODERATOR
+                )
 
 
-class AdminOrReadOnly(permissions.BasePermission):
+class IsAdminOrReadOnly(permissions.BasePermission):
     """Permissions to only allow users with 'admin' role
     to edit the object, otherwise read-only access."""
     def has_permission(self, request, view):
         return (
             request.method in permissions.SAFE_METHODS
             or request.user.is_authenticated
-            and (request.user.is_staff or request.user.role == "admin")
+            and (request.user.is_staff or request.user.role == ADMIN)
         )
