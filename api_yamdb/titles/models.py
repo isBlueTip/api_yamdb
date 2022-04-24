@@ -4,7 +4,8 @@ from django.db import models
 
 from titles.utils import current_year
 
-User = get_user_model()
+from django.core.validators import MaxValueValidator, MinValueValidator
+from django.db import models
 
 
 class Category(models.Model):
