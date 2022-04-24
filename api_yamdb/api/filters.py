@@ -4,6 +4,7 @@ from titles.models import Title
 
 
 class TitleFilter(django_filters.FilterSet):
+    """Custom filter for Title endpoint."""
     category = django_filters.CharFilter(field_name="category__slug")
     genre = django_filters.CharFilter(field_name="genre__slug")
     name = django_filters.CharFilter(
