@@ -1,4 +1,4 @@
-from random import randint
+import uuid
 
 from django.core.mail import send_mail
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -7,7 +7,7 @@ from api_yamdb.settings import ADMIN_EMAIL
 
 
 def send_otp(email):
-    key = randint(99999, 999999)
+    key = uuid.uuid4().hex
     send_mail(
         'Регистрация нового пользователя',
         f'Ваш код подтверждения: {key}.'
