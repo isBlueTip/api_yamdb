@@ -72,17 +72,19 @@ class UserViewSet(viewsets.ModelViewSet):
     def change_user_info(self, request):
         user = self.request.user
         if request.method == 'PATCH':
-            # copy request.data dict
-            data = request.data.copy()
-            data.pop('role', None)
-            # 'role' key from request.data only if current user is admin
-            if request.user.role == 'admin' and request.data.get('role'):
-                data['role'] = request.data['role']
-            else:  # 'role' key = old role
-                data['role'] = request.user.role
-            serializer = UserSerializer(user, data=data, partial=True)
-            serializer.is_valid(raise_exception=True)
+            # allow admin to modify anyone's role
+            if request.user.role == 'admin':
+                serializer = UserSerializer(user,
+                                            data=request.data,
+                                            partial=True)
+                serializer.is_valid(raise_exception=True)
+            else:  # otherwise pop 'role' field from dict to save
+                data = request.data.copy()
+                data.pop('role', None)
+                serializer = UserSerializer(user, data=data, partial=True)
+                serializer.is_valid(raise_exception=True)
             serializer.save()
+        # request.method == 'GET'
         else:
             serializer = UserSerializer(user)
         return Response(serializer.data, status=status.HTTP_200_OK)
