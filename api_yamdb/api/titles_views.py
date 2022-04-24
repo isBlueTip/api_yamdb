@@ -1,17 +1,15 @@
-from titles.models import Category
-from titles.models import Genre
-from titles.models import Title
-from api.titles_serializers import CategorySerializer
-from api.titles_serializers import GenreSerializer
-from api.titles_serializers import TitleSerializer
-from api.titles_serializers import TitlePostSerializer
 import django_filters
+
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import filters
-from rest_framework import viewsets
-from .permissions import IsAdmin
-from .permissions import ReadOnly
-from .permissions import IsAdminOrReadOnly
+from rest_framework import filters, viewsets
+
+from api.titles_serializers import (CategorySerializer,
+                                    GenreSerializer,
+                                    TitlePostSerializer,
+                                    TitleSerializer)
+from titles.models import Category, Genre, Title
+
+from .permissions import IsAdmin, IsAdminOrReadOnly, ReadOnly
 from .titles_mixins import CreateListDestroyViewSet
 
 

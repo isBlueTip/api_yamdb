@@ -11,6 +11,7 @@ from rest_framework.views import APIView
 
 from loggers import logger, formatter
 from users.models import User
+
 from .permissions import IsAdmin
 from .users_serializers import (SignupSerializer,
                                 TokenSerializer,
