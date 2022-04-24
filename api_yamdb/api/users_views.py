@@ -74,8 +74,7 @@ class UserViewSet(viewsets.ModelViewSet):
         if request.method == 'PATCH':
             # copy request.data dict
             data = request.data.copy()
-            if data.get('role'):
-                data.pop('role')
+            data.pop('role', None)
             # 'role' key from request.data only if current user is admin
             if request.user.role == 'admin' and request.data.get('role'):
                 data['role'] = request.data['role']
