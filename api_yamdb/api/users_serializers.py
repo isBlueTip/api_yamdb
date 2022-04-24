@@ -22,11 +22,11 @@ class SignupSerializer(serializers.ModelSerializer):
 
 class TokenSerializer(serializers.Serializer):
     """Serializer to work with sending JWT token."""
-
     username = serializers.CharField(required=True)
     confirmation_code = serializers.CharField(required=True)
 
     def validate(self, data):
+        """Validate OTP."""
         username = data.get('username')
         user = get_object_or_404(User, username=username)
         true_otp = user.confirmation_code
