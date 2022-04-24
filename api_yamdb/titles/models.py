@@ -12,10 +12,20 @@ class Category(models.Model):
     name = models.CharField(max_length=256)
     slug = models.SlugField(unique=True, max_length=50)
 
+    class Meta:
+        ordering = ["name"]
+        verbose_name = 'категория'
+        verbose_name_plural = 'категории'
+
 
 class Genre(models.Model):
     name = models.CharField(max_length=200)
     slug = models.SlugField(unique=True)
+
+    class Meta:
+        ordering = ["name"]
+        verbose_name = 'жанр'
+        verbose_name_plural = 'жанры'
 
 
 def max_value_current_year(value):
@@ -40,6 +50,8 @@ class Title(models.Model):
 
     class Meta:
         ordering = ["-id"]
+        verbose_name = 'произведение'
+        verbose_name_plural = 'произведения'
 
     def __str__(self):
         return self.name
