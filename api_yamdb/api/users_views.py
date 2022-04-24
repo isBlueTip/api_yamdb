@@ -49,8 +49,8 @@ class TokenView(APIView):
     def post(self, request):
         serializer = TokenSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        user = get_object_or_404(User,
-                                 username=serializer.validated_data.get('username'))
+        user = get_object_or_404(
+            User, username=serializer.validated_data.get('username'))
         token = get_tokens_for_user(user)
         return Response(token, status=status.HTTP_201_CREATED)
 
