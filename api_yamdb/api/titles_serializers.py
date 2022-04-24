@@ -1,6 +1,5 @@
 from datetime import datetime
 
-from django.db.models import Avg
 from rest_framework import serializers
 
 from titles.models import Category
@@ -41,10 +40,9 @@ class TitleSerializer(serializers.ModelSerializer):
         )
 
     def get_rating(self, obj):
-        rating = obj.reviews.aggregate(Avg("score")).get("score__avg")
-        if rating is None:
-            return rating
-        return int(rating)
+        if obj.rating is None:
+            return obj.rating
+        return int(obj.rating)
 
     def validate(self, data):
         """Validate if title release year is not
