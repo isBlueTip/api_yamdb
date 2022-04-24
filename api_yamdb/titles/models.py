@@ -1,10 +1,8 @@
-from django.core.validators import MaxValueValidator, MinValueValidator
+from django.core.validators import MinValueValidator
+
 from django.db import models
 
-from titles.utils import current_year
-
-from django.core.validators import MaxValueValidator, MinValueValidator
-from django.db import models
+from api.utils import current_year, max_value_current_year
 
 
 class Category(models.Model):
@@ -31,10 +29,6 @@ class Genre(models.Model):
 
     def __str__(self):
         return self.name
-
-
-def max_value_current_year(value):
-    return MaxValueValidator(current_year())(value)
 
 
 class Title(models.Model):
