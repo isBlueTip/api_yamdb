@@ -1,4 +1,5 @@
 from django.core.validators import MinValueValidator
+
 from django.db import models
 
 from api.utils import current_year, max_value_current_year
@@ -13,6 +14,9 @@ class Category(models.Model):
         verbose_name = 'категория'
         verbose_name_plural = 'категории'
 
+    def __str__(self):
+        return self.name
+
 
 class Genre(models.Model):
     name = models.CharField(max_length=200)
@@ -22,6 +26,9 @@ class Genre(models.Model):
         ordering = ["name"]
         verbose_name = 'жанр'
         verbose_name_plural = 'жанры'
+
+    def __str__(self):
+        return self.name
 
 
 class Title(models.Model):
