@@ -10,12 +10,11 @@ from rest_framework.views import APIView
 
 from api.permissions import IsAdmin
 from api.users_serializers import (SignupSerializer,
-                                TokenSerializer,
-                                UserSerializer)
+                                   TokenSerializer,
+                                   UserSerializer)
 from api.utils import send_otp, get_tokens_for_user
 from loggers import logger, formatter
 from users.models import ADMIN, User
-
 
 
 LOG_NAME = 'users_views.log'

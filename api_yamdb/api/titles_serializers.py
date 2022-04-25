@@ -1,6 +1,3 @@
-# from datetime import datetime
-
-from django.utils import timezone
 from rest_framework import serializers
 
 from titles.models import Category, Genre, Title
