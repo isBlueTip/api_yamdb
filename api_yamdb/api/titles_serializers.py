@@ -2,9 +2,7 @@ from datetime import datetime
 
 from rest_framework import serializers
 
-from titles.models import Category
-from titles.models import Genre
-from titles.models import Title
+from titles.models import Category, Genre, Title
 
 
 class CategorySerializer(serializers.ModelSerializer):

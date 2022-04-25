@@ -5,7 +5,6 @@ from django.core.validators import MaxValueValidator
 from django.utils import timezone
 from rest_framework_simplejwt.tokens import RefreshToken
 
-
 from api_yamdb.settings import ADMIN_EMAIL
 
 
