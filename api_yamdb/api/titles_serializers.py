@@ -58,17 +58,3 @@ class TitlePostSerializer(serializers.ModelSerializer):
             "category",
             "genre",
         )
-
-    def validate(self, data):
-        print(data)
-        """Validate if title release year is not
-        greater than current year."""
-        release_year = data.get('year')
-        today = timezone.now().year
-        print(today)
-        # today = datetime.now().year
-        if release_year and (today < release_year):
-            raise serializers.ValidationError(
-                "Нельзя добавлять произведения, которые еще не вышли"
-            )
-        return data
