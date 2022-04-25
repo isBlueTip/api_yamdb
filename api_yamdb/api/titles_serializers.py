@@ -1,5 +1,6 @@
-from datetime import datetime
+# from datetime import datetime
 
+from django.utils import timezone
 from rest_framework import serializers
 
 from titles.models import Category, Genre, Title
@@ -23,7 +24,7 @@ class TitleSerializer(serializers.ModelSerializer):
     """Serializer to work with titles."""
     genre = GenreSerializer(required=True, many=True)
     category = CategorySerializer(required=True)
-    rating = serializers.SerializerMethodField()
+    rating = serializers.IntegerField()
 
     class Meta:
         model = Title
@@ -36,11 +37,6 @@ class TitleSerializer(serializers.ModelSerializer):
             "category",
             "genre",
         )
-
-    def get_rating(self, obj):
-        if obj.rating is None:
-            return obj.rating
-        return int(obj.rating)
 
 
 class TitlePostSerializer(serializers.ModelSerializer):
@@ -68,7 +64,9 @@ class TitlePostSerializer(serializers.ModelSerializer):
         """Validate if title release year is not
         greater than current year."""
         release_year = data.get('year')
-        today = datetime.now().year
+        today = timezone.now().year
+        print(today)
+        # today = datetime.now().year
         if release_year and (today < release_year):
             raise serializers.ValidationError(
                 "Нельзя добавлять произведения, которые еще не вышли"
