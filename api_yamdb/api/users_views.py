@@ -14,7 +14,8 @@ from api.users_serializers import (SignupSerializer,
                                 UserSerializer)
 from api.utils import send_otp, get_tokens_for_user
 from loggers import logger, formatter
-from users.models import User
+from users.models import ADMIN, User
+
 
 
 LOG_NAME = 'users_views.log'
@@ -71,7 +72,7 @@ class UserViewSet(viewsets.ModelViewSet):
         user = self.request.user
         if request.method == 'PATCH':
             # allow admin to modify anyone's role
-            if request.user.role == 'admin':
+            if request.user.role == ADMIN:
                 serializer = UserSerializer(user,
                                             data=request.data,
                                             partial=True)
