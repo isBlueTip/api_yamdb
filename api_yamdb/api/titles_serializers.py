@@ -42,20 +42,9 @@ class TitleSerializer(serializers.ModelSerializer):
             return obj.rating
         return int(obj.rating)
 
-    def validate(self, data):
-        """Validate if title release year is not
-        greater than current year."""
-        release_year = data.get('year')
-        today = datetime.now().year
-        if today < release_year:
-            raise serializers.ValidationError(
-                "Нельзя добавлять произведения, которые еще не вышли"
-            )
-        return data
-
 
 class TitlePostSerializer(serializers.ModelSerializer):
-    """Serializer to work with posts under a specific title."""
+    """Serializer to create new titles."""
     genre = serializers.SlugRelatedField(
         slug_field="slug", many=True, queryset=Genre.objects.all()
     )
@@ -73,3 +62,15 @@ class TitlePostSerializer(serializers.ModelSerializer):
             "category",
             "genre",
         )
+
+    def validate(self, data):
+        print(data)
+        """Validate if title release year is not
+        greater than current year."""
+        release_year = data.get('year')
+        today = datetime.now().year
+        if release_year and (today < release_year):
+            raise serializers.ValidationError(
+                "Нельзя добавлять произведения, которые еще не вышли"
+            )
+        return data
