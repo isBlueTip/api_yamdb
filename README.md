@@ -2,8 +2,8 @@
 
 ## Описание
 
-Проект API для базы данных произведений с отзывами и комментариями YaMDb. Позволяет делать запросы к ресурсам БД с любого устройства.
-
+Проект API для базы данных произведений с отзывами и комментариями YaMDb. Позволяет делать запросы к ресурсам БД с любого устройства. API написан на вьюсетах, используются пагинация и кастомная модель пользователя.
+***
 ## Установка проекта локально
 
 В папке склонированного репозитория выполните:
@@ -21,87 +21,9 @@ python3 manage.py createsuperuser --email admin@admin.com --username admin -v 3
 python3 manage.py runserver
 ```
 Для проверки работоспособности, перейдите на http://127.0.0.1:8000/
+***
 
-
-## Заполнение БД тестовыми данными
-
-```bash
-python3 manage.py shell
-from django.contrib.contenttypes.models import ContentType
-ContentType.objects.all().delete()
-exit()
-python3 manage.py loaddata ../fixtures/fixtures.json
-```
-
-## Стек
-
-Python, Django REST framework, Django
-
-## Автор
-
-Семён Егоров
-
-[LinkedIn](https://www.linkedin.com/in/simonegorov/)  
-[Email](rhinorofl@gmail.com)  
-[Telegram](https://t.me/SamePersoon)
-
-
-
-
-
-
-
-
-
-
-
-
-# YaMDb API
-
-## Установка
-
-Клонировать репозиторий и перейти в него в командной строке:
-```
-git clone https://github.com/isBlueTip/yatube_yamdb.git
-```
-
-```
-cd yatube_yamdb
-```
-
-Создать и активировать виртуальное окружение:
-
-```
-python3 -m venv env
-```
-
-```
-source venv/bin/activate
-```
-
-Установить зависимости из файла requirements.txt:
-
-```
-python3 -m pip install --upgrade pip
-```
-
-```
-pip install -r requirements.txt
-```
-
-Выполнить миграции:
-
-```
-python3 yatube_yamdb/manage.py migrate
-```
-
-Запустить проект:
-
-```
-python3 yatube_yamdb/manage.py runserver
-```
-
-## Права на использование API
+## Пользовательские роли
 
 - **Аноним** — может просматривать описания произведений, читать отзывы и комментарии.
 
@@ -110,8 +32,9 @@ python3 yatube_yamdb/manage.py runserver
 - **Модератор** *(moderator)* — те же права, что и у Аутентифицированного пользователя плюс право удалять любые отзывы и комментарии.
 - **Администратор** *(admin)* — полные права на управление всем контентом проекта. Может создавать и удалять произведения, категории и жанры. Может назначать роли пользователям.
 - **Суперюзер Django** — обладет правами администратора *(admin)*.
+***
 
-## Виды запросов к API
+## Примеры запросов
 
 1. Эндпойнт http://127.0.0.1:8000/api/v1/auth/signup/
     - POST - регистрация пользователя через *username* и *email*. На почту отправляется код подтверждения *confirmation_code*
@@ -158,3 +81,26 @@ python3 yatube_yamdb/manage.py runserver
 15. Эндпойнт http://127.0.0.1:8000/api/v1/users/me/
     - GET - получение данных своей учетной записи
     - PATCH - изменение данных своей учетной записи
+***
+
+## Стек
+
+Python, Django REST framework, Django, JWT, Redoc
+
+## Авторы
+
+**Руслан Смирнов**
+
+[Email](bludstainz@yandex.ru)  
+[Telegram](https://t.me/tiredruslan)
+
+**Семён Егоров**
+
+[LinkedIn](https://www.linkedin.com/in/simonegorov/)  
+[Email](rhinorofl@gmail.com)  
+[Telegram](https://t.me/SamePersoon)
+
+**Юлия Васильева**
+
+[Email](julka3561@yandex.ru)  
+[Telegram](https://t.me/julka3561)
