@@ -97,7 +97,7 @@ Python, Django REST framework, Django, JWT, Redoc
 **Семён Егоров**
 
 [LinkedIn](https://www.linkedin.com/in/simonegorov/)  
-[Email](rhinorofl@gmail.com)  
+[Email](simon.egorov.job@gmail.com)  
 [Telegram](https://t.me/SamePersoon)
 
 **Юлия Васильева**
